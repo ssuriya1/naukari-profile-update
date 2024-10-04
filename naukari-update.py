@@ -19,7 +19,7 @@ chrome_options.add_argument("--disable-extensions")
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install(), options=chrome_options))
 driver.get("https://www.naukri.com/nlogin/login")
 timeout = 20
 
@@ -34,7 +34,7 @@ try:
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
     WebDriverWait(driver, timeout).until(EC.url_contains("naukri.com/mnjuser/profile"))
-    driver.get("https://www.naukri.com/mnjuser/profile?id=")  # Adjust the URL if needed
+    driver.get("https://www.naukri.com/mnjuser/profile?id=")
     time.sleep(5)
     edit_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
