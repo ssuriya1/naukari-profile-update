@@ -6,50 +6,52 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-import time
+
+chrome_options = Options()
+chrome_options.add_argument("--no-sandbox")
+chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--disable-gpu")
+chrome_options.add_argument("--window-size=1920,1080")
+chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("--remote-debugging-port=9222")
+chrome_options.add_argument("--disable-infobars")
+chrome_options.add_argument("--start-maximized")
 
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 driver.get("https://www.naukri.com/nlogin/login")
-timeout = 20
 
 try:
-    WebDriverWait(driver, timeout).until(
-        EC.visibility_of_element_located((By.ID, 'usernameField'))
-    )
+    print("Waiting for username field to be visible...")
+    WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, 'usernameField')))
+    print("Username field is visible.")
+    
+    print("Entering username...")
     driver.find_element(By.ID, 'usernameField').send_keys(username)
+    
+    print("Entering password...")
     driver.find_element(By.ID, 'passwordField').send_keys(password)
+    
+    print("Clicking the login button...")
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
 
-    time.sleep(2)
-    current_url = driver.current_url
-    print("Current URL:", current_url)
-
-    try:
-        error_message = driver.find_element(By.CSS_SELECTOR, '.login-error')
-        if error_message:
-            print("Login error:", error_message.text)
-    except Exception as e:
-        print("No specific error message found.")
     driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid")
-    print("Navigating to the profile page...")
-    time.sleep(5)
-
-    edit_button = WebDriverWait(driver, timeout).until(
+    
+    print("Waiting for edit button to be clickable...")
+    edit_button = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
     )
     edit_button.click()
-    time.sleep(3)
+    print("Edit button clicked. Updating profile...")
 
-    save_button = WebDriverWait(driver, timeout).until(
+    save_button = WebDriverWait(driver, 20).until(
         EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
     )
     save_button.click()
     print("Profile updated successfully.")
-    time.sleep(3)
 
 except Exception as e:
     print("Error encountered:", e)
