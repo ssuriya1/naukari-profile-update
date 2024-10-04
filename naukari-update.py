@@ -10,20 +10,19 @@ from webdriver_manager.chrome import ChromeDriverManager
 chrome_options = Options()
 chrome_options.add_argument("--no-sandbox")
 chrome_options.add_argument("--disable-dev-shm-usage")
+chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument("--disable-extensions")
-chrome_options.add_argument("--remote-debugging-port=9222")
-chrome_options.add_argument("--disable-infobars")
-chrome_options.add_argument("--start-maximized")
 
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-driver.get("https://www.naukri.com/nlogin/login")
 
 try:
+    driver.get("https://www.naukri.com/nlogin/login")
+
     print("Waiting for username field to be visible...")
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, 'usernameField')))
     print("Username field is visible.")
@@ -37,7 +36,6 @@ try:
     print("Clicking the login button...")
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
-
     driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid")
     
     print("Waiting for edit button to be clickable...")
