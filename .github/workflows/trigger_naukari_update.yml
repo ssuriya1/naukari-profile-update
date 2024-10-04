@@ -1,5 +1,5 @@
 name: Update Naukri Profile
-on: workflow_dispatch
+on: push
 
 jobs:
   update-profile:
@@ -20,10 +20,12 @@ jobs:
         env: 
           NAUKRI_USERNAME: ${{ secrets.NAUKRI_USERNAME }}
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
-        run: python ./naukari-update.py
+        run: |
+          python ./naukari-update.py
+          ls
 
       - name: Upload screenshot artifact
         uses: actions/upload-artifact@v3
         with:
           name: naukri-screenshot
-          path: naukri_login_screenshot.png
+          path: ./naukri_login_screenshot.png
