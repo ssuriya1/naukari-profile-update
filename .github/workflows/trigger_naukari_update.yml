@@ -3,7 +3,7 @@ on: push
 
 jobs:
   update-profile:
-    runs-on: windows-latest
+    runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v4
