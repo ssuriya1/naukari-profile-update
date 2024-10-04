@@ -3,9 +3,9 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
 from selenium.webdriver.chrome.options import Options
-from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 chrome_options = Options()
@@ -21,10 +21,18 @@ password = os.getenv('NAUKRI_PASSWORD')
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 driver.get("https://www.naukri.com/nlogin/login")
+WebDriverWait(driver, 10).until(
+    EC.visibility_of_element_located((By.ID, 'usernameField'))
+)
+
 driver.find_element(By.ID, 'usernameField').send_keys(username)
 driver.find_element(By.ID, 'passwordField').send_keys(password)
-driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]').click()
-time.sleep(5)
+
+login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
+login_button.click()
+
+WebDriverWait(driver, 10).until(EC.url_contains("naukri.com/mnjuser/profile"))
+
 driver.get("https://www.naukri.com/mnjuser/profile?id=")
 time.sleep(5)
 
