@@ -19,16 +19,15 @@ chrome_options.add_argument("--disable-extensions")
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://www.naukri.com/nlogin/login")
 timeout = 20
-print("working")
-driver.save_screenshot('naukri_login_screenshot.png')
 
 try:
     WebDriverWait(driver, timeout).until(
         EC.visibility_of_element_located((By.ID, 'usernameField'))
     )
+    driver.save_screenshot('naukri_login_screenshot.png')
 
     driver.find_element(By.ID, 'usernameField').send_keys(username)
     driver.find_element(By.ID, 'passwordField').send_keys(password)
@@ -42,12 +41,15 @@ try:
     )
     edit_button.click()
     time.sleep(3)
+    driver.save_screenshot('naukri_login_screenshot.png')
 
     save_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
     )
     save_button.click()
+    driver.save_screenshot('naukri_login_screenshot.png')
     time.sleep(3)
+    print("Updated Successfully")
 
 except Exception as e:
     print("Error encountered:", e)
