@@ -19,7 +19,7 @@ chrome_options.add_argument("--disable-extensions")
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), Options=chrome_options)
 driver.get("https://www.naukri.com/nlogin/login")
 timeout = 20
 
