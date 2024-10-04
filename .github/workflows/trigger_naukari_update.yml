@@ -18,4 +18,4 @@ jobs:
         env: 
           NAUKRI_USERNAME: ${{ secrets.NAUKRI_USERNAME }}
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
-        run: python update_naukri.py
+        run: python naukari-update.py
