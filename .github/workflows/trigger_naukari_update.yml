@@ -1,12 +1,12 @@
 name: Update Naukri Profile
-on: push
+on: workflow_dispatch
 
 jobs:
   update-profile:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
 
       - name: Setup Python
         uses: actions/setup-python@v2
@@ -23,9 +23,3 @@ jobs:
         run: |
           python ./naukari-update.py
           ls
-
-      - name: Upload screenshot artifact
-        uses: actions/upload-artifact@v3
-        with:
-          name: naukri-screenshot
-          path: ./naukri_login_screenshot.png
