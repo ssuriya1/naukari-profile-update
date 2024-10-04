@@ -27,6 +27,7 @@ try:
     WebDriverWait(driver, timeout).until(
         EC.visibility_of_element_located((By.ID, 'usernameField'))
     )
+    driver.save_screenshot('naukri_login_screenshot.png')
 
     driver.find_element(By.ID, 'usernameField').send_keys(username)
     driver.find_element(By.ID, 'passwordField').send_keys(password)
