@@ -19,7 +19,8 @@ chrome_options.add_argument("--disable-extensions")
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), Options=chrome_options)
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
+
 driver.get("https://www.naukri.com/nlogin/login")
 timeout = 20
 
@@ -33,21 +34,25 @@ try:
     driver.find_element(By.ID, 'passwordField').send_keys(password)
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
+    
     WebDriverWait(driver, timeout).until(EC.url_contains("naukri.com/mnjuser/profile"))
     driver.get("https://www.naukri.com/mnjuser/profile?id=")
     time.sleep(5)
+    
     edit_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
     )
     edit_button.click()
     time.sleep(3)
-    driver.save_screenshot('naukri_login_screenshot.png')
+    
+    driver.save_screenshot('naukri_edit_screenshot.png')
 
     save_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
     )
     save_button.click()
-    driver.save_screenshot('naukri_login_screenshot.png')
+    
+    driver.save_screenshot('naukri_save_screenshot.png')
     time.sleep(3)
     print("Updated Successfully")
 
