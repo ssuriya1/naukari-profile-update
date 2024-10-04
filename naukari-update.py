@@ -21,31 +21,35 @@ password = os.getenv('NAUKRI_PASSWORD')
 
 driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
 driver.get("https://www.naukri.com/nlogin/login")
-WebDriverWait(driver, 10).until(
-    EC.visibility_of_element_located((By.ID, 'usernameField'))
-)
+timeout = 20
 
-driver.find_element(By.ID, 'usernameField').send_keys(username)
-driver.find_element(By.ID, 'passwordField').send_keys(password)
+try:
+    WebDriverWait(driver, timeout).until(
+        EC.visibility_of_element_located((By.ID, 'usernameField'))
+    )
 
-login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
-login_button.click()
+    driver.find_element(By.ID, 'usernameField').send_keys(username)
+    driver.find_element(By.ID, 'passwordField').send_keys(password)
+    login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
+    login_button.click()
+    WebDriverWait(driver, timeout).until(EC.url_contains("naukri.com/mnjuser/profile"))
+    driver.get("https://www.naukri.com/mnjuser/profile?id=")  # Adjust the URL if needed
+    time.sleep(5)
+    edit_button = WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
+    )
+    edit_button.click()
+    time.sleep(3)
 
-WebDriverWait(driver, 10).until(EC.url_contains("naukri.com/mnjuser/profile"))
+    save_button = WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
+    )
+    save_button.click()
+    time.sleep(3)
 
-driver.get("https://www.naukri.com/mnjuser/profile?id=")
-time.sleep(5)
+except Exception as e:
+    print("Error encountered:", e)
+    print(driver.page_source)
 
-edit_button = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
-)
-edit_button.click()
-time.sleep(3)
-
-save_button = WebDriverWait(driver, 10).until(
-    EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
-)
-save_button.click()
-time.sleep(3)
-
-driver.quit()
+finally:
+    driver.quit()
