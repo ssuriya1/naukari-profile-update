@@ -1,4 +1,6 @@
 import os
+import random
+import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.chrome.service import Service
@@ -14,6 +16,9 @@ chrome_options.add_argument("--headless")
 chrome_options.add_argument("--disable-gpu")
 chrome_options.add_argument("--window-size=1920,1080")
 chrome_options.add_argument("--disable-extensions")
+chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36")
+chrome_options.add_argument("--disable-blink-features=AutomationControlled")
+chrome_options.add_argument("--start-maximized")
 
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
@@ -23,6 +28,7 @@ driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), opti
 try:
     driver.get("https://www.naukri.com/nlogin/login")
 
+    time.sleep(random.uniform(2, 5))
     print("Waiting for username field to be visible...")
     WebDriverWait(driver, 20).until(EC.visibility_of_element_located((By.ID, 'usernameField')))
     print("Username field is visible.")
