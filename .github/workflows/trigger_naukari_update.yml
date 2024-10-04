@@ -22,4 +22,3 @@ jobs:
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
         run: |
           python ./naukari-update.py
-          ls

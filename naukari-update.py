@@ -45,17 +45,15 @@ try:
     driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid")
     
     print("Waiting for edit button to be clickable...")
-    edit_button = WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
-    )
-    edit_button.click()
-    print("Edit button clicked. Updating profile...")
-
-    save_button = WebDriverWait(driver, 20).until(
-        EC.element_to_be_clickable((By.ID, 'saveBasicDetailsBtn'))
-    )
-    save_button.click()
-    print("Profile updated successfully.")
+    try:
+        edit_button = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, "//em[contains(@class, 'icon edit')]"))
+        )
+        edit_button.click()
+        print("Edit button clicked.")
+    except Exception as e:
+        print("Error encountered while waiting for edit button:", e)
+        print(driver.page_source)
 
 except Exception as e:
     print("Error encountered:", e)
