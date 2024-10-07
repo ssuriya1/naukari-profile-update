@@ -30,4 +30,4 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: naukri-screenshot
-          path: ./naukri_login_screenshot.png
+          path: ./naukari-login
