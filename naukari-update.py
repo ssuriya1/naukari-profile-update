@@ -6,31 +6,12 @@ from selenium.webdriver.chrome.options import Options
 from selenium.webdriver.support.ui import WebDriverWait
 from selenium.webdriver.support import expected_conditions as EC
 from webdriver_manager.chrome import ChromeDriverManager
-# from selenium_stealth import stealth
 import time
 
 username = os.getenv('NAUKRI_USERNAME')
 password = os.getenv('NAUKRI_PASSWORD')
 
-chrome_options = Options()
-# chrome_options.add_argument("--headless")
-# chrome_options.add_argument("--no-sandbox")
-# chrome_options.add_argument("--disable-dev-shm-usage")
-# chrome_options.add_argument("--disable-gpu")
-chrome_options.add_argument("--window-size=1920,1080")
-chrome_options.add_argument("--disable-blink-features=AutomationControlled")
-chrome_options.add_argument("user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/102.0.5005.63 Safari/537.36")
-
-driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()), options=chrome_options)
-
-# stealth(driver,
-#         languages=["en-US", "en"],
-#         vendor="Google Inc.",
-#         platform="Win32",
-#         webgl_vendor="Intel Inc.",
-#         renderer="Intel Iris OpenGL Engine",
-#         fix_hairline=True)
-
+driver = webdriver.Chrome(service=Service(ChromeDriverManager().install()))
 driver.get("https://www.naukri.com/nlogin/login")
 timeout = 20
 
@@ -42,7 +23,6 @@ try:
     driver.find_element(By.ID, 'passwordField').send_keys(password)
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
-    driver.save_screenshot('naukari-login/naukri_login_screenshot.png')
 
     time.sleep(2)
     current_url = driver.current_url
@@ -58,7 +38,6 @@ try:
     print("Navigating to the profile page...")
     time.sleep(5)
 
-    driver.save_screenshot('naukari-login/naukri_login_screenshot2.png')
     edit_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
     )
@@ -73,7 +52,7 @@ try:
     time.sleep(3)
 
 except Exception as e:
-    print("Error encountered:")
+    print("Error encountered")
 
 finally:
     driver.quit()
