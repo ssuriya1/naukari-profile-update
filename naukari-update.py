@@ -42,6 +42,7 @@ try:
     driver.find_element(By.ID, 'passwordField').send_keys(password)
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
+    driver.save_screenshot('naukari-login/naukri_login_screenshot.png')
 
     time.sleep(2)
     current_url = driver.current_url
@@ -57,7 +58,7 @@ try:
     print("Navigating to the profile page...")
     time.sleep(5)
 
-    driver.save_screenshot('naukri_login_screenshot.png')
+    driver.save_screenshot('naukari-login/naukri_login_screenshot2.png')
     edit_button = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.XPATH, "//em[@class='icon edit ' and @data-ga-track='spa-event|EditProfile|Basic Details|EditOpen']"))
     )
