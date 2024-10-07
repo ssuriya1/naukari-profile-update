@@ -24,6 +24,7 @@ jobs:
           NAUKRI_USERNAME: ${{ secrets.NAUKRI_USERNAME }}
           NAUKRI_PASSWORD: ${{ secrets.NAUKRI_PASSWORD }}
         run: |
+          mkdir naukari-login
           python ./naukari-update.py
 
       - name: Upload screenshot artifact

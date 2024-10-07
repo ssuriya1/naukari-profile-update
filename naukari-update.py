@@ -20,7 +20,9 @@ try:
         EC.visibility_of_element_located((By.ID, 'usernameField'))
     )
     driver.find_element(By.ID, 'usernameField').send_keys(username)
+    driver.save_screenshot('naukari-login/enter_username.png')
     driver.find_element(By.ID, 'passwordField').send_keys(password)
+    driver.save_screenshot('naukari-login/enter_password.png')
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
 
