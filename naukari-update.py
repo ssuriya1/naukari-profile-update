@@ -71,8 +71,7 @@ try:
     time.sleep(3)
 
 except Exception as e:
-    print("Error encountered:", e)
-    print(driver.page_source)
+    print("Error encountered:")
 
 finally:
     driver.quit()
