@@ -34,9 +34,19 @@ try:
             print("Login error:", error_message.text)
     except Exception as e:
         print("No specific error message found.")
-    driver.get("https://www.naukri.com/mnjuser/profile")
+    driver.save_screenshot('naukari-login/naukri_after_login.png')
+    profile_icon = WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.CLASS_NAME, 'nI-gNb-drawer__icon-img-wrapper'))
+    )
+    profile_icon.click()
+
+    view_profile_link = WebDriverWait(driver, timeout).until(
+        EC.element_to_be_clickable((By.LINK_TEXT, "View & Update Profile"))
+    )
+    view_profile_link.click()
+    # driver.get("https://www.naukri.com/mnjuser/profile")
     print("Navigating to the profile page...")
-    driver.save_screenshot('naukari-login/naukri_login_screenshot.png')
+    driver.save_screenshot('naukari-login/naukri_after_navigation.png')
     time.sleep(5)
 
     edit_button = WebDriverWait(driver, timeout).until(
