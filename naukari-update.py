@@ -20,9 +20,7 @@ try:
         EC.visibility_of_element_located((By.ID, 'usernameField'))
     )
     driver.find_element(By.ID, 'usernameField').send_keys(username)
-    driver.save_screenshot('naukari-login/enter_username.png')
     driver.find_element(By.ID, 'passwordField').send_keys(password)
-    driver.save_screenshot('naukari-login/enter_password.png')
     login_button = driver.find_element(By.CSS_SELECTOR, 'button[type="submit"]')
     login_button.click()
 
@@ -36,7 +34,7 @@ try:
             print("Login error:", error_message.text)
     except Exception as e:
         print("No specific error message found.")
-    driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid")
+    driver.get("https://www.naukri.com/mnjuser/profile")
     print("Navigating to the profile page...")
     driver.save_screenshot('naukari-login/naukri_login_screenshot.png')
     time.sleep(5)
