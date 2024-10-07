@@ -36,6 +36,7 @@ try:
         print("No specific error message found.")
     driver.get("https://www.naukri.com/mnjuser/profile?id=&altresid")
     print("Navigating to the profile page...")
+    driver.save_screenshot('naukari-login/naukri_login_screenshot.png')
     time.sleep(5)
 
     edit_button = WebDriverWait(driver, timeout).until(
