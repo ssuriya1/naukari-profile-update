@@ -34,6 +34,7 @@ try:
             print("Login error:", error_message.text)
     except Exception as e:
         print("No specific error message found.")
+
     driver.save_screenshot('naukari-login/naukri_after_login.png')
     profile_icon = WebDriverWait(driver, timeout).until(
         EC.element_to_be_clickable((By.CLASS_NAME, 'nI-gNb-drawer__icon-img-wrapper'))
@@ -63,7 +64,7 @@ try:
     time.sleep(3)
 
 except Exception as e:
-    print("Error encountered")
+    print("Error encountered", {e})
 
 finally:
     driver.quit()
